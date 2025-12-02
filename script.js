@@ -804,9 +804,8 @@ function customDicePool() {
 
 // push roll results to roll history
 function pushToRollHistory() {
-  let d20Rolls = rollD20.rolls;
-  let d20Result = rollD20.result;
-  let d20Modifier = rollD20.modifier;
+  let d20Rdata = rollD20();
+  let skillCheckData = rollSkillCheck();
 }
 
 document.addEventListener("DOMContentLoaded", function () {

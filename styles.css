@@ -1,0 +1,87 @@
+.critical-highest-roll {
+color: gold;
+}
+
+.critical-roll {
+color: green;
+}
+
+.highest-roll {
+color: red;
+}
+
+.rejected-roll {
+text-decoration: line-through;
+}
+
+/* Theme styles for SVG icons */
+svg path.red-theme {
+  vertical-align: middle;
+  fill: red;
+}
+
+svg path.green-theme {
+  vertical-align: middle;
+  fill: green;
+}
+
+svg path.blue-theme {
+  vertical-align: middle;
+  fill: #0000ff;
+}
+
+svg path.violet-theme {
+  vertical-align: middle;
+  fill: #7f00ff;
+}
+
+svg path.pink-theme {
+  vertical-align: middle;
+  fill: #ff69b4;
+}
+
+svg path.black-theme {
+  vertical-align: middle;
+  fill: black;
+}
+
+svg path.white-theme {
+  vertical-align: middle;
+  fill: white;
+  stroke: black;
+  stroke-width: 5;
+}
+
+svg path.grey-theme {
+  vertical-align: middle;
+  fill: grey;
+}
+
+svg path.gold-theme {
+  vertical-align: middle;
+  fill: gold;
+}
+
+svg path.silver-theme {
+  vertical-align: middle;
+  fill: silver;
+}
+
+svg path.bronze-theme {
+  vertical-align: middle;
+  fill: #cd7f32;
+}
+
+#skills-section {
+
+  display: none;
+
+}
+
+#custom-dice-pool {
+  display: none;
+}
+
+#create-quick-roll {
+  display: none;
+}

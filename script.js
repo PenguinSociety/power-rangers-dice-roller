@@ -806,6 +806,7 @@ function customDicePool() {
 function pushToRollHistory() {
   let d20Rdata = rollD20();
   let skillCheckData = rollSkillCheck();
+  let html = "<h2>Roll History</h2>";
 }
 
 document.addEventListener("DOMContentLoaded", function () {

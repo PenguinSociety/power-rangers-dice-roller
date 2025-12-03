@@ -634,7 +634,12 @@ function rollSkill() {
   let resultDiv = document.getElementById("roll-result");
   resultDiv.innerHTML = resultDisplayString;
 
-  return total;
+  return {
+    d20: d20Data,
+    skillCheck: skillCheckData,
+    totalRoll: total,
+    modifier: additionalModifier,
+  };
 }
 
 // From here, I'll work on the save and load feature
@@ -762,7 +767,6 @@ function createDiceBag() {
     "<br><button id='roll-custom-pool'>" +
     "Roll custom dice pool" +
     "</button>";
-  console.log("HTML: ", diceBagHTML);
   document.getElementById("dice-bag").innerHTML = diceBagHTML;
   let customPoolHTML =
     "<h3>Custom Pool Results</h3>" +
@@ -800,13 +804,80 @@ function customDicePool() {
     document.getElementById("d" + side + "-results").innerHTML =
       "<h4>" + key + " Rolls</h4>" + "<p>" + customPoolResults[key] + "</p>";
   }
+  return {
+    xDieValue: xValue,
+    xDieCount: dxCount,
+    xDieRolls: dxRolls,
+    diceBagResults: customPoolResults,
+  };
 }
 
 // push roll results to roll history
-function pushToRollHistory() {
-  let d20Rdata = rollD20();
-  let skillCheckData = rollSkillCheck();
-  let html = "<h2>Roll History</h2>";
+function pushToRollHistory(rollData) {
+  let e = new Date(Date.now());
+  let localTime = e.toLocaleString();
+  if (
+    (rollData.d20.modifier,
+    rollData.skillCheck.upshift || rollData.skillCheck.downshift,
+    rollData.skillCheck.modifier,
+    rollData.modifier)
+  ) {
+    let specRollsCombined = [];
+    for (let i = 0; i < rollData.skillCheck.dice.length; i++) {
+      let combinedData =
+        rollData.skillCheck.dice[i] + ": " + rollData.skillCheck.rolls[i];
+      specRollsCombined.push(combinedData);
+    }
+    console.log(
+      localTime,
+      "Rolled ",
+      rollData.skillCheck.skill,
+      " with ",
+      rollData.d20.modifier,
+      ", +",
+      rollData.skillCheck.upshift,
+      " upshift, -",
+      rollData.skillCheck.downshift,
+      " downshift, specialization, and +",
+      rollData.modifier,
+      ". | D20: ",
+      rollData.d20.rolls,
+      " | Skill dice: ",
+      specRollsCombined
+    );
+  } else if (
+    (rollData.d20.modifier,
+    rollData.skillCheck.upshift || rollData.skillCheck.downshift,
+    rollData.skillCheck.modifier)
+  ) {
+    let specRollsCombined = [];
+    for (let i = 0; i < rollData.skillCheck.dice.length; i++) {
+      let combinedData =
+        rollData.skillCheck.dice[i] + ": " + rollData.skillCheck.rolls[i];
+      specRollsCombined.push(combinedData);
+    }
+
+    console.log(
+      localTime,
+      "Rolled ",
+      rollData.skillCheck.skill,
+      " with ",
+      rollData.d20.modifier,
+      ", +",
+      rollData.skillCheck.upshift,
+      " upshift, -",
+      rollData.skillCheck.downshift,
+      " downshift, and specialization",
+      ". | D20: ",
+      rollData.d20.rolls,
+      " | Skill dice: ",
+      specRollsCombined
+    );
+  } else if (rollData.d20.modifier,
+    rollData.skillCheck.upshift || rollData.skillCheck.downshift)
+
+  // let html = "";
+  // html += `<p class="timestamp">${localTime}`;
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -826,7 +897,10 @@ document.addEventListener("DOMContentLoaded", function () {
       saveCharacterData();
       downloadCharacterData();
     });
-  document.getElementById("roll-button").addEventListener("click", rollSkill);
+  document.getElementById("roll-button").addEventListener("click", function () {
+    let rollData = rollSkill();
+    pushToRollHistory(rollData);
+  });
   document
     .getElementById("theme-selector")
     .addEventListener("input", changeTheme);
@@ -869,7 +943,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // 1. Roll result history
 // 2. Credits screen
 // 3. Instructions
-// 4.
+// 4. Bug fix: why is everything rolling twice?
 // 5. Styling
 // 6. Discord integration
 // 7. Refactor and scrub development comments

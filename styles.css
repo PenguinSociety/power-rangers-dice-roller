@@ -1,87 +1,127 @@
+#main-wrapper {
+	display: grid;
+	grid-template-columns: 1fr 4fr 3fr;
+	gap: 1.25rem;
+	grid-template-rows: auto auto;
+}
+
+nav {
+	grid-row: span 2;
+	border: solid black 0.75em;
+	border-radius: 2em;
+	padding: 5%;
+}
+
+#main-controls {
+	grid-row: span 2;
+	border: solid black 0.75em;
+	border-radius: 2em;
+	padding: 5%;
+}
+
+#roll-results {
+	border: solid black 0.75em;
+	border-radius: 2em;
+	padding: 5%;
+}
+
+#roll-history {
+	border: solid black 0.75em;
+	border-radius: 2em;
+	padding: 5%;
+}
+
+#ranger-icon-div {
+	position: absolute;
+}
+
+
 .critical-highest-roll {
-color: gold;
+	color: gold;
 }
 
 .critical-roll {
-color: green;
+	color: green;
 }
 
 .highest-roll {
-color: red;
+	color: red;
 }
 
 .rejected-roll {
-text-decoration: line-through;
+	text-decoration: line-through;
 }
 
 /* Theme styles for SVG icons */
 svg path.red-theme {
-  vertical-align: middle;
-  fill: red;
+	vertical-align: middle;
+	fill: red;
 }
 
 svg path.green-theme {
-  vertical-align: middle;
-  fill: green;
+	vertical-align: middle;
+	fill: green;
 }
 
 svg path.blue-theme {
-  vertical-align: middle;
-  fill: #0000ff;
+	vertical-align: middle;
+	fill: #0000ff;
 }
 
 svg path.violet-theme {
-  vertical-align: middle;
-  fill: #7f00ff;
+	vertical-align: middle;
+	fill: #7f00ff;
 }
 
 svg path.pink-theme {
-  vertical-align: middle;
-  fill: #ff69b4;
+	vertical-align: middle;
+	fill: #ff69b4;
 }
 
 svg path.black-theme {
-  vertical-align: middle;
-  fill: black;
+	vertical-align: middle;
+	fill: black;
 }
 
 svg path.white-theme {
-  vertical-align: middle;
-  fill: white;
-  stroke: black;
-  stroke-width: 5;
+	vertical-align: middle;
+	fill: white;
+	stroke: black;
+	stroke-width: 5;
 }
 
 svg path.grey-theme {
-  vertical-align: middle;
-  fill: grey;
+	vertical-align: middle;
+	fill: grey;
 }
 
 svg path.gold-theme {
-  vertical-align: middle;
-  fill: gold;
+	vertical-align: middle;
+	fill: gold;
 }
 
 svg path.silver-theme {
-  vertical-align: middle;
-  fill: silver;
+	vertical-align: middle;
+	fill: silver;
 }
 
 svg path.bronze-theme {
-  vertical-align: middle;
-  fill: #cd7f32;
+	vertical-align: middle;
+	fill: #cd7f32;
 }
 
 #skills-section {
-
-  display: none;
-
+	display: none;
 }
 
 #custom-dice-pool {
-  display: none;
+	display: none;
 }
 
 #create-quick-roll {
-  display: none;
+	display: none;
+}
+
+#instructions-credits-modal {
+	display: none;
 }

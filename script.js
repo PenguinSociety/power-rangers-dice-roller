@@ -175,7 +175,7 @@ function displayQuickRolls() {
 	}
 
 	let rollsArray = JSON.parse(savedRolls);
-	let html = "<h3>Quick Rolls</h3>";
+	let html = "<h2>Quick Rolls</h2>";
 
 	for (let i = 0; i < rollsArray.length; i++) {
 		html += `<button class="quick-roll-btn" data-index="${i}">${rollsArray[i].name}</button> `;
@@ -199,7 +199,8 @@ function triggerQuickRoll(index) {
 	document.getElementById("specialization").checked = roll.specialization;
 	document.getElementById("other-modifier").value = roll.otherBonus;
 
-	rollSkill();
+	let rollData = rollSkill();
+	pushToRollHistory(rollData);
 }
 
 function deleteQuickRoll(index) {
@@ -679,11 +680,12 @@ function customDicePool() {
 	let dxCount = document.getElementById("dx-roll-amount").value;
 	let dxRolls = [];
 	for (let i = 0; i < dxCount; i++) {
-		let dxRoll = Math.floor(Math.random() * xValue) + 1;
+		let dxRoll = ` ${Math.floor(Math.random() * xValue) + 1}`;
 		dxRolls.push(dxRoll);
 	}
-	document.getElementById("dx-results").innerHTML =
-		"<h4>DX Rolls</h4>" + "<p>" + dxRolls + "</p>";
+	document.getElementById(
+		"dx-results"
+	).innerHTML = `<h4>DX Rolls</h4><p>${dxRolls}</p>`;
 	// Other dice
 	let customPoolResults = {};
 	for (let side of diceSides) {
@@ -693,7 +695,7 @@ function customDicePool() {
 			"d" + side + "-roll-amount"
 		).value;
 		for (let i = 0; i < rollQuantity; i++) {
-			let roll = Math.floor(Math.random() * side) + 1;
+			let roll = ` ${Math.floor(Math.random() * side) + 1}`;
 			customPoolResults[key].push(roll);
 		}
 		document.getElementById("d" + side + "-results").innerHTML =
@@ -706,60 +708,118 @@ function customDicePool() {
 		diceBagResults: customPoolResults,
 	};
 }
-
 // push roll results to roll history
-function pushToRollHistory(rollData) {
+function pushToRollHistory(rollData, customPoolData) {
 	let e = new Date(Date.now());
 	let localTime = e.toLocaleString();
-	let modifierArray = [];
-	if (rollData.d20.modifier) {
-		modifierArray.push(rollData.d20.modifier);
-	}
-	let upshiftString = ``;
-	if (rollData.skillCheck.upshift > 0) {
-		upshiftString += `+${rollData.skillCheck.upshift} upshift`;
-		modifierArray.push(upshiftString);
-	}
-	let downshiftString = ``;
-	if (rollData.skillCheck.downshift > 0) {
-		downshiftString += `-${rollData.skillCheck.downshift} downshift`;
-		modifierArray.push(downshiftString);
-	}
-	let otherModString = ``;
-	if (rollData.modifier > 0) {
-		otherModString += `+${rollData.modifier}`;
-		modifierArray.push(otherModString);
-	}
-	let specializationString = ``;
-	if (rollData.skillCheck.modifier === "with specialization") {
-		specializationString += `specialization`;
-		modifierArray.push(specializationString);
-	}
-	let rollMessage = `<p class="timestamp">${localTime}</p>
-	 <br>`;
-	if (modifierArray.length > 0) {
-		rollMessage += `<h3>You rolled ${rollData.skillCheck.skill} (D${
-			rollData.skillCheck.level * 2
-		}) with `;
-		for (let i = 0; i < modifierArray.length; i++) {
-			if (modifierArray.length === 2 && i === 0) {
-				rollMessage += `${modifierArray[i]} and `;
-			} else if (modifierArray.length === 2 && i === 1) {
-				rollMessage += `${modifierArray[i]}.</h3>`;
-			} else if (modifierArray.length > 2 && i === modifierArray.length - 1) {
-				rollMessage += `and ${modifierArray[i]}.</h3>`;
+	let rollMessage = `<p class="timestamp">${localTime}</p>`;
+	let historyEntries = [];
+
+	if (customPoolData === undefined) {
+		let modifierArray = [];
+		if (rollData.d20.modifier) {
+			modifierArray.push(rollData.d20.modifier);
+		}
+		let upshiftString = ``;
+		if (rollData.skillCheck.upshift > 0) {
+			upshiftString = `+${rollData.skillCheck.upshift} upshift`;
+			modifierArray.push(upshiftString);
+		}
+		let downshiftString = ``;
+		if (rollData.skillCheck.downshift > 0) {
+			downshiftString = `-${rollData.skillCheck.downshift} downshift`;
+			modifierArray.push(downshiftString);
+		}
+		let otherModString = ``;
+		if (rollData.modifier > 0) {
+			otherModString = `+${rollData.modifier}`;
+			modifierArray.push(otherModString);
+		}
+		let specializationString = ``;
+		if (rollData.skillCheck.modifier === "with specialization") {
+			specializationString = `specialization`;
+			modifierArray.push(specializationString);
+		}
+		if (modifierArray.length > 0) {
+			rollMessage += `<h3>You rolled ${rollData.skillCheck.skill} (D${
+				rollData.skillCheck.level * 2
+			}) with `;
+			for (let i = 0; i < modifierArray.length; i++) {
+				if (modifierArray.length === 1) {
+					rollMessage += `${modifierArray[i]}.</h3>`;
+				} else if (modifierArray.length === 2 && i === 0) {
+					rollMessage += `${modifierArray[i]} and `;
+				} else if (modifierArray.length === 2 && i === 1) {
+					rollMessage += `${modifierArray[i]}.</h3>`;
+				} else if (modifierArray.length > 2 && i === modifierArray.length - 1) {
+					rollMessage += `and ${modifierArray[i]}.</h3>`;
+				} else {
+					rollMessage += `${modifierArray[i]}, `;
+				}
+			}
+		} else {
+			rollMessage += `<h3>You rolled ${rollData.skillCheck.skill} (D${
+				rollData.skillCheck.level * 2
+			}).</h3>`;
+		}
+		let formattedD20Strings = [];
+		for (let roll of rollData.d20.rolls) {
+			if (roll === rollData.d20.result) {
+				let d20String = `${roll}`;
+				formattedD20Strings.push(d20String);
 			} else {
-				rollMessage += `${modifierArray[i]}, `;
+				let d20String = `<span class="rejected-roll">${roll}</span>`;
+				formattedD20Strings.push(d20String);
 			}
 		}
+		rollMessage += `<p>D20: `;
+		for (string of formattedD20Strings) {
+			rollMessage += `(${string})`;
+		}
+		rollMessage += `</p>`;
+		let skillCheckString = ``;
+		let skillRollStrings = [];
+		for (let i = 0; i < rollData.skillCheck.rolls.length; i++) {
+			if (rollData.skillCheck.rolls[i] === rollData.skillCheck.result) {
+				skillCheckString = `${rollData.skillCheck.dice[i]}: (${rollData.skillCheck.rolls[i]}) `;
+				skillRollStrings.push(skillCheckString);
+			} else {
+				let skillCheckString = `${rollData.skillCheck.dice[i]}: <span class="rejected-roll">(${rollData.skillCheck.rolls[i]})</span> `;
+				skillRollStrings.push(skillCheckString);
+			}
+		}
+		rollMessage += `<p>`;
+		for (string of skillRollStrings) {
+			rollMessage += `${string}`;
+		}
+		rollMessage += `</p>`;
+
+		rollMessage += `<p>Total: ${rollData.totalRoll}</p>`;
+
+		document.getElementById("hist-default-msg").style.display = "none";
+		historyEntries.push(rollMessage);
+		for (let i = 0; i < historyEntries.length; i++) {
+			document.getElementById("roll-history-div").innerHTML =
+				historyEntries[i] +
+				document.getElementById("roll-history-div").innerHTML;
+		}
 	} else {
-		rollMessage += `<h3>You rolled ${rollData.skillCheck.skill} (D${
-			rollData.skillCheck.level * 2
-		}).</h3>`;
-  }
-  
-  
-	console.log(rollMessage);
+		rollMessage += `<h3>Rolled custom pool</h3>`;
+		let customPoolResultsString = JSON.stringify(customPoolData.diceBagResults);
+		rollMessage += `<p>${customPoolResultsString}</p>`;
+		historyEntries.push(rollMessage);
+		for (let i = 0; i < historyEntries.length; i++) {
+			document.getElementById("roll-history-div").innerHTML =
+				historyEntries[i] +
+				document.getElementById("roll-history-div").innerHTML;
+		}
+	}
+}
+
+//Open the instructions and credits box
+function openInstructions() {
+	let instructions = document.getElementById("instructions-credits-modal");
+	instructions.style.display = "block";
 }
 
 // Event listneners
@@ -795,7 +855,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 	document
 		.getElementById("roll-custom-pool")
-		.addEventListener("click", customDicePool);
+		.addEventListener("click", function () {
+			let customPoolData = customDicePool();
+			let rollData = undefined;
+			pushToRollHistory(rollData, customPoolData);
+		});
 	document
 		.getElementById("open-dice-bag")
 		.addEventListener("click", openDiceBagModal);
@@ -810,6 +874,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		.getElementById("confirm-quick-roll")
 		.addEventListener("click", confirmQuickRoll);
 	document
+		.getElementById("open-instructions-modal")
+		.addEventListener("click", openInstructions);
+	document
 		.getElementById("quick-roll-div")
 		.addEventListener("click", function (e) {
 			if (e.target.classList.contains("quick-roll-btn")) {
@@ -823,15 +890,11 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // To-do:
-// 1. Roll result history
-// 2. Credits screen
+// 1. Styling
+// 2. Discord integration
 // 3. Instructions
-// 4. Bug fix: why is everything rolling twice?
-// 5. Styling
-// 6. Discord integration
-// 7. Refactor and scrub development comments
-// 8.
-// 9.
-//
+// 4. Make the custom pool entry look better in the roll history
+// 5. Refactor and scrub development comments
+
 // Reminders:
 // Keep track of assets used for attribution purposes

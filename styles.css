@@ -1,40 +1,87 @@
+h1,
+h2,
+h3,
+h4 {
+	font-family: "Science Gothic", sans-serif;
+}
+
+p,
+legend,
+button,
+label {
+	font-family: "Rubik", sans-serif;
+}
+
+button {
+	font-size: 1.5em;
+}
+
 #main-wrapper {
+	position: relative;
 	display: grid;
 	grid-template-columns: 1fr 4fr 3fr;
-	gap: 1.25rem;
+	gap: 1vw;
 	grid-template-rows: auto auto;
 }
 
 nav {
+	display: flex;
+	flex-direction: column;
 	grid-row: span 2;
-	border: solid black 0.75em;
-	border-radius: 2em;
+	border: solid black 0.5vw;
+	border-radius: 2vw;
 	padding: 5%;
+}
+
+nav > button {
+	margin: 1em 0 1em 0;
 }
 
 #main-controls {
 	grid-row: span 2;
-	border: solid black 0.75em;
-	border-radius: 2em;
+	border: solid black 0.5vw;
+	border-radius: 2vw;
 	padding: 5%;
 }
 
 #roll-results {
-	border: solid black 0.75em;
-	border-radius: 2em;
-	padding: 5%;
+	border: solid black 0.5vw;
+	border-radius: 2vw;
+	padding-left: 4vw;
 }
 
 #roll-history {
-	border: solid black 0.75em;
-	border-radius: 2em;
-	padding: 5%;
+	border: solid black 0.5vw;
+	border-radius: 2vw;
+	padding-left: 4vw;
+	padding-right: 1vw;
+}
+
+#roll-history-div {
+	height: 12vw;
+	overflow-y: scroll;
+	scrollbar-width: thin;
 }
 
 #ranger-icon-div {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	position: absolute;
+	left: 58.75%;
+	top: 85%;
+	height: 7vw;
+	width: 7vw;
+	border: black solid 0.5vw;
+	background-color: white;
+	border-radius: 50%;
+	padding: auto;
 }
 
+#ranger-icon-div > svg {
+	width: 5vw;
+	height: 5vw;
+}
 
 .critical-highest-roll {
 	color: gold;
@@ -108,6 +155,11 @@ svg path.silver-theme {
 svg path.bronze-theme {
 	vertical-align: middle;
 	fill: #cd7f32;
+}
+
+svg.ranger-icon {
+	width: 2em;
+	height: 2em;
 }
 
 #skills-section {

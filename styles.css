@@ -13,13 +13,13 @@ label {
 }
 
 button {
-	font-size: 1.5em;
+	font-size: 1em;
 }
 
 #main-wrapper {
 	position: relative;
 	display: grid;
-	grid-template-columns: 1fr 4fr 3fr;
+	grid-template-columns: 10vw 50vw 30vw;
 	gap: 1vw;
 	grid-template-rows: auto auto;
 }
@@ -27,10 +27,10 @@ button {
 nav {
 	display: flex;
 	flex-direction: column;
-	grid-row: span 2;
+	grid-row: 1 / span 2;
 	border: solid black 0.5vw;
 	border-radius: 2vw;
-	padding: 5%;
+	padding: 1em;
 }
 
 nav > button {
@@ -41,7 +41,7 @@ nav > button {
 	grid-row: span 2;
 	border: solid black 0.5vw;
 	border-radius: 2vw;
-	padding: 5%;
+	padding: 1vw;
 }
 
 #roll-results {
@@ -75,7 +75,6 @@ nav > button {
 	border: black solid 0.5vw;
 	background-color: white;
 	border-radius: 50%;
-	padding: auto;
 }
 
 #ranger-icon-div > svg {

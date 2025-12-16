@@ -44,9 +44,112 @@ function createSkillLevelInput() {
 	document.getElementById("skill-levels").innerHTML = html;
 }
 
+// Theme Objects
+let violetTheme = {
+	baseColor: "#7f00ff",
+	lighterColor: "#BF80FF",
+	darkerColor: "#400080",
+	buttonText: "#e6e6e6",
+	titleText: "#400080",
+};
+
+let greenTheme = {
+	baseColor: "#007F00",
+	lighterColor: "#80FF80",
+	darkerColor: "#004D00",
+	buttonText: "#e6e6e6",
+	titleText: "#004D00",
+};
+
+let blueTheme = {
+	baseColor: "#0000FF",
+	lighterColor: "#8080FF",
+	darkerColor: "#000080",
+	buttonText: "#e6e6e6",
+	titleText: "#000080",
+};
+
+let pinkTheme = {
+	baseColor: "#FF69B4",
+	lighterColor: "#FFD9EC",
+	darkerColor: "#993F6C",
+	buttonText: "#e6e6e6",
+	titleText: "#993F6C",
+};
+
+let goldTheme = {
+	baseColor: "#FFD900",
+	lighterColor: "#FFEC80",
+	darkerColor: "#806C00",
+	buttonText: "#e6e6e6",
+	titleText: "#806C00",
+};
+
+let greyTheme = {
+	baseColor: "#808080",
+	lighterColor: "#bfbfbf",
+	darkerColor: "#404040",
+	buttonText: "#e6e6e6",
+	titleText: "#404040",
+};
+
+let redTheme = {
+	baseColor: "#FF0000",
+	lighterColor: "#FF8080",
+	darkerColor: "#800000",
+	buttonText: "#e6e6e6",
+	titleText: "#800000",
+};
+
+let bronzeTheme = {
+	baseColor: "#CD7F32",
+	lighterColor: "#FFBF80",
+	darkerColor: "#5C2E00",
+	buttonText: "#e6e6e6",
+	titleText: "#5C2E00",
+};
+
+let blackTheme = {
+	baseColor: "#404040",
+	lighterColor: "#000000",
+	darkerColor: "#808080",
+	buttonText: "white",
+	titleText: "white",
+};
+
+let whiteTheme = {
+	baseColor: "#F2F2F2",
+	lighterColor: "#FFFFFF",
+	darkerColor: "#D9D9D9",
+	buttonText: "black",
+	titleText: "#D9D9D9",
+};
+
+let silverTheme = {
+	baseColor: "#808080",
+	lighterColor: "#bfbfbf",
+	darkerColor: "#404040",
+	buttonText: "#e6e6e6",
+	titleText: "#404040",
+};
+
 // This function gets the theme selector value
+let themes = {
+	violet: violetTheme,
+	green: greenTheme,
+	blue: blueTheme,
+	pink: pinkTheme,
+	gold: goldTheme,
+	red: redTheme,
+	bronze: bronzeTheme,
+	white: whiteTheme,
+	black: blackTheme,
+	silver: silverTheme,
+	grey: greyTheme,
+};
 function iconChange() {
 	let themeSelector = document.getElementById("theme-selector").value;
+	let themeObjectName = "";
 	let iconHtml = "";
 	if (themeSelector === "violet") {
 		iconHtml +=
@@ -85,19 +188,36 @@ function iconChange() {
 	return {
 		icon: iconHtml,
 		theme: themeSelector,
+		themeObject: themes[themeSelector],
 	};
 }
 
 // This function tells the theme to change
-function changeTheme() {
-	let result = iconChange();
-	console.log("html: ", result.icon);
-	document.getElementById("ranger-icon-div").innerHTML = result.icon;
+function changeTheme(theme) {
+	console.log("html: ", theme.icon);
+	document.getElementById("ranger-icon-div").innerHTML = theme.icon;
 	let rangerIcon = document.getElementById("ranger-icon");
 	rangerIcon.classList.add("default-theme");
-	rangerIcon.classList.replace(
-		rangerIcon.classList[0],
-		result.theme + "-theme"
+	rangerIcon.classList.replace(rangerIcon.classList[0], theme.theme + "-theme");
+	document.documentElement.style.setProperty(
+		"--base-theme-color",
+		theme.themeObject.baseColor
+	);
+	document.documentElement.style.setProperty(
+		"--lighter-theme-color",
+		theme.themeObject.lighterColor
+	);
+	document.documentElement.style.setProperty(
+		"--darker-theme-color",
+		theme.themeObject.darkerColor
+	);
+	document.documentElement.style.setProperty(
+		"--button-text-color",
+		theme.themeObject.buttonText
+	);
+	document.documentElement.style.setProperty(
+		"--title-text-color",
+		theme.themeObject.titleText
 	);
 }
 
@@ -248,7 +368,8 @@ function loadCharacterData() {
 		let parsedData = JSON.parse(savedData);
 		document.getElementById("character-name").value = parsedData.name;
 		document.getElementById("theme-selector").value = parsedData.theme;
-		changeTheme();
+		let theme = iconChange();
+		changeTheme(theme);
 		for (let i = 0; i < skills.length; i++) {
 			let lowerCaseSkill = skills[i].toLowerCase().replace(/ /g, "-");
 			document.getElementById(lowerCaseSkill + "-level").value =
@@ -289,7 +410,8 @@ function getFileInput() {
 		let characterData = JSON.parse(jsonString);
 		document.getElementById("character-name").value = characterData.name;
 		document.getElementById("theme-selector").value = characterData.theme;
-		changeTheme();
+		let theme = iconChange();
+		changeTheme(theme);
 		for (let i = 0; i < skills.length; i++) {
 			let lowerCaseSkill = skills[i].toLowerCase().replace(/ /g, "-");
 			document.getElementById(lowerCaseSkill + "-level").value =
@@ -846,7 +968,10 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 	document
 		.getElementById("theme-selector")
-		.addEventListener("input", changeTheme);
+		.addEventListener("input", function () {
+			let theme = iconChange();
+			changeTheme(theme);
+		});
 	document.getElementById("skills").addEventListener("input", skillSelected);
 	document
 		.getElementById("import-character-button")

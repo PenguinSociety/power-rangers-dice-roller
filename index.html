@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<title>Power Rangers TTRPG Dice Roller</title>
+		<link rel="stylesheet" href="styles.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Science+Gothic:wght@100..900&display=swap"
+			rel="stylesheet"
+		/>
+		<script src="script.js"></script>
+	</head>
+	<body>
+		<h1>Power Rangers TTRPG Dice Roller</h1>
+		<div id="main-wrapper">
+			<nav>
+				<button id="edit-skills-button">Edit skills</button>
+				<button id="open-dice-bag">Open dice bag</button>
+				<button id="open-instructions-modal">Guide and credits</button>
+			</nav>
+			<section id="main-controls">
+				<h2>Go Go Power Dice Roller!</h2>
+				<section id="skill-select">
+					<fieldset>
+						<legend>Select a skill</legend>
+						<p>
+							Skill:
+							<select name="skills" id="skills">
+								<option value="default">Select a skill</option>
+								<optgroup label="Strength">
+									<option value="athletics">Athletics</option>
+									<option value="brawn">Brawn</option>
+									<option value="intimidation">Intimidation</option>
+									<option value="might">Might</option>
+								</optgroup>
+								<optgroup label="Speed">
+									<option value="acrobatics">Acrobatics</option>
+									<option value="driving">Driving</option>
+									<option value="finesse">Finesse</option>
+									<option value="infiltration">Infiltration</option>
+									<option value="initiative">Initiative</option>
+									<option value="targeting">Targeting</option>
+								</optgroup>
+								<optgroup label="Smarts">
+									<option value="alertness">Alertness</option>
+									<option value="culture">Culture</option>
+									<option value="science">Science</option>
+									<option value="survival">Survival</option>
+									<option value="technology">Technology</option>
+								</optgroup>
+								<optgroup label="Social">
+									<option value="animal-handling">Animal Handling</option>
+									<option value="deception">Deception</option>
+									<option value="performance">Performance</option>
+									<option value="persuasion">Persuasion</option>
+									<option value="streetwise">Streetwise</option>
+								</optgroup>
+							</select>
+						</p>
+					</fieldset>
+				</section>
+				<section id="roll-modifiers">
+					<fieldset>
+						<legend>Modifiers</legend>
+						<p>
+							Are you rolling with Edge or Snag?
+							<br />
+							<input
+								checked
+								type="radio"
+								id="none"
+								name="edge-snag"
+								value="none"
+							/>
+							<label for="none">No</label>
+							<input type="radio" id="edge" name="edge-snag" value="edge" />
+							<label for="edge">Edge</label>
+							<input type="radio" id="snag" name="edge-snag" value="snag" />
+							<label for="snag">Snag</label>
+						</p>
+						<p>
+							Do you have an upshift or downshift?
+							<br />
+							<input
+								type="number"
+								id="upshift"
+								name="upshift"
+								value="0"
+								min="0"
+								max="6"
+							/>
+							<label for="upshift">Upshift</label>
+							<input
+								type="number"
+								id="downshift"
+								name="downshift"
+								value="0"
+								min="0"
+								max="6"
+							/>
+							<label for="downshift">Downshift</label>
+						</p>
+						<p>
+							<input
+								type="checkbox"
+								id="specialization"
+								value="specialization-true"
+								name="specialization"
+							/>
+							<label for="specialization"
+								>I am rolling with specialization.</label
+							>
+						</p>
+						<p>
+							Any other bonuses? +
+							<input
+								type="number"
+								min="-10"
+								max="10"
+								id="other-modifier"
+								name="other-modifier"
+								value="0"
+							/>
+						</p>
+					</fieldset>
+				</section>
+				<button id="roll-button">Roll the dice!</button>
+				<button id="save-roll">Save this roll</button>
+				<section id="quickrolls">
+					<div id="quick-roll-div"></div>
+				</section>
+				<section>
+					<div id="create-quick-roll">
+						<label for="quick-roll-name"
+							>What do you want to call this quick roll?</label
+						>
+						<input type="text" id="quick-roll-name" name="quick-roll-name" />
+						<button id="confirm-quick-roll">Save</button>
+						<button id="cancel-quick-roll">Cancel</button>
+					</div>
+				</section>
+				<div id="ranger-icon-div">
+					<svg class="ranger-icon">
+						<path
+							id="ranger-icon"
+							d="M163.53 21.28c-4.262.042-8.402 1.318-11.936 3.782-14.61 10.188-21.734 41.505 11.03 69.97-.874 22.855 41.786 26.99 24.845-6.657 15.375-44.718-5.465-67.27-23.94-67.094zm255.25 9.564c-6.193.008-12.997 2.884-16.78 8.625-23.15 35.122 1.875 53.016 25.875 14.936 9.863-15.65 1.23-23.575-9.094-23.562zm-41.717 63.468c-63.42 56.883-111.03 138.435-247.688 80.938 18.578 53.492-6.768 71.09-31.313 76.28-8.846-6.104-17.503-14.193-25.374-24.28l-19.282-24.72 2.625 31.25c5.134 61.565 27.576 107.054 64.782 136.376 37.207 29.322 88.146 42.22 149.25 42.22 95.388 0 181.77-60.905 213.563-148l5.344-14.657-15.408 2.186c-5.34.757-9.54.544-12.812-.28l31.688-60.157c-14.324 6.135-29.355 13.593-43.97 20.25 1.73-13.324 5.75-30.14 12.72-50.282l10.312-29.875L446.594 151c-25.463 19.87-52.84 43.613-79.78 63.25-8.948-17.862-7.626-54.075 10.248-119.938zM33.188 139.906c-8.878-.007-18.012 11.466-15.688 22.688 6.156 29.728 35.794 21.19 28.844-7.75-2.593-10.795-7.83-14.934-13.157-14.938zm401.343 44.906c-6.213 24.132-7.675 43.034-3.936 57.844 2.573 10.193 8.258 18.705 16.562 23.5 4.09 2.36 8.58 3.803 13.375 4.47-29.9 20.703-73.522 6.61-53.53-46.72-85.188 114.645-173.707 126.336-202.156 39.125-14.613 86.63-105.328 67.462-125.75-2.342 22.01 18.3 47.298 26.824 70.656 22.25 15.653-3.066 29.977-12.394 40.25-27.438 5.99-8.77 10.622-19.464 13.813-32 13.008 21.732 28.002 35.802 44.812 43.094 22.92 9.942 47.727 6.613 71.688-3.22 39.206-16.086 78.357-49.144 114.218-78.562zm-6 179.688c11.396 7.638 18.095 16.212 18.095 25.125 0 32.772-85.57 59.563-190.375 59.563-104.804 0-189.813-26.79-189.813-59.563 0-8.645 6.17-17.1 16.938-24.53-39.8 13.298-64.844 31.22-64.844 50.81 0 41.02 106.547 74.158 237.72 74.158s237.688-33.137 237.688-74.157c0-19.793-24.892-38.038-65.407-51.406z"
+						/>
+					</svg>
+				</div>
+			</section>
+			<section id="roll-results">
+				<h2>Roll Results</h2>
+				<p id="roll-result">Click "Roll the dice!" above to see the result.</p>
+			</section>
+			<section id="roll-history">
+				<h2>Roll History</h2>
+				<div id="roll-history-div">
+					<p id="hist-default-msg">
+						You have no roll history to display. Get rollin'!
+					</p>
+				</div>
+			</section>
+		</div>
+		<div id="theme-selector-div">
+			<label id="theme-selector-label" for="theme-selector"
+				>Change dice roller theme:</label
+			>
+			<select name="theme" id="theme-selector">
+				<option value="default">Choose a theme</option>
+				<option value="violet">Violet Torrent</option>
+				<option value="green">Green Forest</option>
+				<option value="blue">Blue Storm</option>
+				<option value="pink">Pink Heavens</option>
+				<option value="gold">Gold Force</option>
+				<option value="red">Red Inferno</option>
+				<option value="bronze">Bronze Mountain</option>
+				<option value="white">White Sun</option>
+				<option value="black">Black Moon</option>
+				<option value="silver">Silver Forge</option>
+				<option value="grey">Grey Abyss</option>
+			</select>
+		</div>
+		<div id="skills-section">
+			<section>
+				<h2>Your Character</h2>
+				<label for="character-name">Character name:</label>
+				<input type="text" id="character-name" name="character-name" />
+				<button id="modal-close">Close</button>
+				<fieldset id="skill-levels"></fieldset>
+				<h3>Save/Load Character Data</h3>
+				<button id="download-character-button">Download Character Data</button>
+				<br />
+				<br />
+				<label for="import-skills-file"
+					>Select Character Data .json file:</label
+				>
+				<input type="file" id="import-skills-file" accept=".json" />
+				<br />
+				<br />
+				<button id="import-character-button">Import Character Data</button>
+			</section>
+		</div>
+		<section>
+			<div id="custom-dice-pool">
+				<h2>Dice Bag</h2>
+				<button id="dice-bag-close">Close</button>
+				<div id="dice-bag"></div>
+				<div id="custom-pool-results"></div>
+			</div>
+		</section>
+		<section id="instructions-credits-modal">
+			<h2>Instructions and Credits</h2>
+			<p>Welcome to the Power Rangers tabletop RPG dice roller.</p>
+			<p>
+				To start using the dice roller, open the character sheet and enter your
+				name and your skill die level for each skill.
+			</p>
+			<p>
+				Ready to roll? Select the skill you want to roll from the dropdown menu
+				along with any applicable modifiers and click the roll button. Your
+				results will appear in the roll results box.
+			</p>
+			<p>
+				Do you need to roll a custom pool of dice? Click the dice bag button to
+				open the dice bag to roll a custom mix of dice.
+			</p>
+
+			<p>
+				This dice roller was created by Jon Grobstick.
+				<a href="https://github.com/PenguinSociety" target="_blank"
+					>PenguinSociety on GitHub</a
+				>.
+			</p>
+			<p>
+				The Power Rangers tabletop RPG was created by
+				<a
+					href="https://renegadegamestudios.com/game-world/power-rangers/power-rangers-roleplaying-game/?srsltid=AfmBOorc-t4eHrK7y6iNl_hvlWc5dEb70ibHxk8dXR032x2GDj21cGHl&page=1"
+					target="_blank"
+					>Renegade Game Studios</a
+				>.
+			</p>
+			<p>Power Rangers is owned by Hasbro and the Toei Company.</p>
+			<p>
+				Vectors and icons "Water Splash", "Small Fire", "Beech", "Power
+				Lightning", "Fluffy Cloud", "Falling Blob", "Earth Split", "Moon",
+				"Sun", "Anvil Impact", and "Crystal Shine" by
+				<a href="https://game-icons.net/?ref=svgrepo.com" target="_blank"
+					>Game Icons.net</a
+				>
+				in CC Attribution License via
+				<a href="https://www.svgrepo.com/" target="_blank">SVG Repo.</a>
+			</p>
+		</section>
+	</body>
+</html>

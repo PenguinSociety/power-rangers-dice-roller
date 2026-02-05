@@ -1,3 +1,38 @@
+// Check if we're in a room
+function getRoomId() {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get('room');
+}
+
+// Send roll result to backend
+async function sendRollToBackend(rollData) {
+  const roomId = getRoomId();
+  
+  if (!roomId) {
+    console.log('Not in a room, skipping Discord post');
+    return;
+  }
+  
+  try {
+    const response = await fetch('http://localhost:3000/api/roll', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        roomId: roomId,
+        rollData: rollData
+      })
+    });
+    
+    if (response.ok) {
+      console.log('Roll posted to Discord!');
+    } else {
+      console.error('Failed to post to Discord');
+    }
+  } catch (error) {
+    console.error('Error posting roll:', error);
+  }
+}
+
 const skills = [
 	"Athletics",
 	"Brawn",
@@ -740,6 +775,52 @@ function rollSkill() {
 	let resultDiv = document.getElementById("roll-result");
 	resultDiv.innerHTML = resultDisplayString;
 
+// Send to Discord if in a room
+const characterName = document.getElementById("character-name").value || "Unknown Ranger";
+
+// Build clean Discord message
+let discordMessage = `**${characterName}'s Roll: ${capitalizedSkill}`;
+if (skillCheckData.level > 0) {
+  discordMessage += ` (D${skillCheckData.level * 2})`;
+}
+if (d20Data.modifier === "edge") {
+  discordMessage += " with Edge";
+}
+if (d20Data.modifier === "snag") {
+  discordMessage += " with Snag";
+}
+if (skillCheckData.modifier === "with specialization") {
+  discordMessage += " and Specialization";
+}
+discordMessage += "**\n";
+
+// D20 result
+discordMessage += `D20 Result: `;
+if (d20Data.modifier === "edge" || d20Data.modifier === "snag") {
+  discordMessage += `${d20Data.rolls[0]} | ${d20Data.rolls[1]}`;
+} else {
+  discordMessage += `${d20Data.result}`;
+}
+discordMessage += "\n";
+
+// Skill die result
+if (skillCheckData.modifier === "with specialization") {
+  discordMessage += `Skill die result: `;
+  for (let i = 0; i < skillCheckData.rolls.length; i++) {
+    if (i > 0) discordMessage += " | ";
+    discordMessage += `${skillCheckData.dice[i]} rolled ${skillCheckData.rolls[i]}`;
+  }
+} else if (skillCheckData.level > 0) {
+  discordMessage += `Skill die result: ${skillCheckData.dice} rolled ${skillCheckData.result}`;
+}
+discordMessage += "\n";
+
+// Total
+discordMessage += `**Total Result: ${total}**`;
+
+sendRollToBackend({
+  message: discordMessage
+});
 	return {
 		d20: d20Data,
 		skillCheck: skillCheckData,
@@ -823,6 +904,12 @@ function customDicePool() {
 		document.getElementById("d" + side + "-results").innerHTML =
 			"<h4>" + key + " Rolls</h4>" + "<p>" + customPoolResults[key] + "</p>";
 	}
+
+// Send to Discord if in a room
+  sendRollToBackend({
+    message: resultDisplayString.replace(/<[^>]*>/g, '') // Strip HTML tags
+  });
+
 	return {
 		xDieValue: xValue,
 		xDieCount: dxCount,

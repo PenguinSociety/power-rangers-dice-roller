@@ -14,7 +14,7 @@ async function sendRollToBackend(rollData) {
 	}
 
 	try {
-		const response = await fetch("http://localhost:3000/api/roll", {
+		const response = await fetch("https://power-rangers-ttrpg-dice-roller.onrender.com/api/roll", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({

@@ -1,36 +1,36 @@
 // Check if we're in a room
 function getRoomId() {
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get('room');
+	const urlParams = new URLSearchParams(window.location.search);
+	return urlParams.get("room");
 }
 
 // Send roll result to backend
 async function sendRollToBackend(rollData) {
-  const roomId = getRoomId();
-  
-  if (!roomId) {
-    console.log('Not in a room, skipping Discord post');
-    return;
-  }
-  
-  try {
-    const response = await fetch('http://localhost:3000/api/roll', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        roomId: roomId,
-        rollData: rollData
-      })
-    });
-    
-    if (response.ok) {
-      console.log('Roll posted to Discord!');
-    } else {
-      console.error('Failed to post to Discord');
-    }
-  } catch (error) {
-    console.error('Error posting roll:', error);
-  }
+	const roomId = getRoomId();
+
+	if (!roomId) {
+		console.log("Not in a room, skipping Discord post");
+		return;
+	}
+
+	try {
+		const response = await fetch("http://localhost:3000/api/roll", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				roomId: roomId,
+				rollData: rollData,
+			}),
+		});
+
+		if (response.ok) {
+			console.log("Roll posted to Discord!");
+		} else {
+			console.error("Failed to post to Discord");
+		}
+	} catch (error) {
+		console.error("Error posting roll:", error);
+	}
 }
 
 const skills = [
@@ -236,23 +236,23 @@ function changeTheme(theme) {
 	rangerIcon.classList.replace(rangerIcon.classList[0], theme.theme + "-theme");
 	document.documentElement.style.setProperty(
 		"--base-theme-color",
-		theme.themeObject.baseColor
+		theme.themeObject.baseColor,
 	);
 	document.documentElement.style.setProperty(
 		"--lighter-theme-color",
-		theme.themeObject.lighterColor
+		theme.themeObject.lighterColor,
 	);
 	document.documentElement.style.setProperty(
 		"--darker-theme-color",
-		theme.themeObject.darkerColor
+		theme.themeObject.darkerColor,
 	);
 	document.documentElement.style.setProperty(
 		"--button-text-color",
-		theme.themeObject.buttonText
+		theme.themeObject.buttonText,
 	);
 	document.documentElement.style.setProperty(
 		"--title-text-color",
-		theme.themeObject.titleText
+		theme.themeObject.titleText,
 	);
 }
 
@@ -293,7 +293,7 @@ function confirmQuickRoll() {
 	// Gather all the current form values
 	let qrSkill = document.getElementById("skills").value;
 	let qrEdgeSnag = document.querySelector(
-		"input[name='edge-snag']:checked"
+		"input[name='edge-snag']:checked",
 	).value;
 	let qrUpshift = document.getElementById("upshift").value;
 	let qrDownshift = document.getElementById("downshift").value;
@@ -347,7 +347,7 @@ function triggerQuickRoll(index) {
 
 	document.getElementById("skills").value = roll.skill;
 	document.querySelector(
-		`input[name='edge-snag'][value='${roll.edgeSnag}']`
+		`input[name='edge-snag'][value='${roll.edgeSnag}']`,
 	).checked = true;
 	document.getElementById("upshift").value = roll.upshift;
 	document.getElementById("downshift").value = roll.downshift;
@@ -456,7 +456,7 @@ function getFileInput() {
 		if (characterData.quickRolls) {
 			localStorage.setItem(
 				"quickRolls",
-				JSON.stringify(characterData.quickRolls)
+				JSON.stringify(characterData.quickRolls),
 			);
 			displayQuickRolls();
 		}
@@ -517,14 +517,14 @@ function rollSkillCheck() {
 	let skillName = document.getElementById("skills").value;
 	console.log("Selected skill:", skillName);
 	let skillLevel = parseInt(
-		document.getElementById(skillName + "-level").value
+		document.getElementById(skillName + "-level").value,
 	);
 	console.log("Skill level:", skillLevel);
 	let upshiftVal = parseInt(document.getElementById("upshift").value) || 0;
 	let downshiftVal = parseInt(document.getElementById("downshift").value) || 0;
 	let effectiveLevel = Math.max(
 		0,
-		Math.min(skillLevel + (upshiftVal - downshiftVal), 6)
+		Math.min(skillLevel + (upshiftVal - downshiftVal), 6),
 	);
 	console.log(
 		"Upshift: ",
@@ -532,7 +532,7 @@ function rollSkillCheck() {
 		" | Downsift: ",
 		downshiftVal,
 		" | Effective Level: ",
-		effectiveLevel
+		effectiveLevel,
 	);
 	let specializationCheck = document.getElementById("specialization");
 	if (specializationCheck.checked) {
@@ -579,7 +579,7 @@ function rollSkillCheck() {
 			" | Skill die rolled: ",
 			skillDice,
 			" | Array check: ",
-			displayArray
+			displayArray,
 		);
 		return {
 			skill: skillName,
@@ -775,52 +775,53 @@ function rollSkill() {
 	let resultDiv = document.getElementById("roll-result");
 	resultDiv.innerHTML = resultDisplayString;
 
-// Send to Discord if in a room
-const characterName = document.getElementById("character-name").value || "Unknown Ranger";
+	// Send to Discord if in a room
+	const characterName =
+		document.getElementById("character-name").value || "Unknown Ranger";
 
-// Build clean Discord message
-let discordMessage = `**${characterName}'s Roll: ${capitalizedSkill}`;
-if (skillCheckData.level > 0) {
-  discordMessage += ` (D${skillCheckData.level * 2})`;
-}
-if (d20Data.modifier === "edge") {
-  discordMessage += " with Edge";
-}
-if (d20Data.modifier === "snag") {
-  discordMessage += " with Snag";
-}
-if (skillCheckData.modifier === "with specialization") {
-  discordMessage += " and Specialization";
-}
-discordMessage += "**\n";
+	// Build clean Discord message
+	let discordMessage = `**${characterName}'s Roll: ${capitalizedSkill}`;
+	if (skillCheckData.level > 0) {
+		discordMessage += ` (D${skillCheckData.level * 2})`;
+	}
+	if (d20Data.modifier === "edge") {
+		discordMessage += " with Edge";
+	}
+	if (d20Data.modifier === "snag") {
+		discordMessage += " with Snag";
+	}
+	if (skillCheckData.modifier === "with specialization") {
+		discordMessage += " and Specialization";
+	}
+	discordMessage += "**\n";
 
-// D20 result
-discordMessage += `D20 Result: `;
-if (d20Data.modifier === "edge" || d20Data.modifier === "snag") {
-  discordMessage += `${d20Data.rolls[0]} | ${d20Data.rolls[1]}`;
-} else {
-  discordMessage += `${d20Data.result}`;
-}
-discordMessage += "\n";
+	// D20 result
+	discordMessage += `D20 Result: `;
+	if (d20Data.modifier === "edge" || d20Data.modifier === "snag") {
+		discordMessage += `${d20Data.rolls[0]} | ${d20Data.rolls[1]}`;
+	} else {
+		discordMessage += `${d20Data.result}`;
+	}
+	discordMessage += "\n";
 
-// Skill die result
-if (skillCheckData.modifier === "with specialization") {
-  discordMessage += `Skill die result: `;
-  for (let i = 0; i < skillCheckData.rolls.length; i++) {
-    if (i > 0) discordMessage += " | ";
-    discordMessage += `${skillCheckData.dice[i]} rolled ${skillCheckData.rolls[i]}`;
-  }
-} else if (skillCheckData.level > 0) {
-  discordMessage += `Skill die result: ${skillCheckData.dice} rolled ${skillCheckData.result}`;
-}
-discordMessage += "\n";
+	// Skill die result
+	if (skillCheckData.modifier === "with specialization") {
+		discordMessage += `Skill die result: `;
+		for (let i = 0; i < skillCheckData.rolls.length; i++) {
+			if (i > 0) discordMessage += " | ";
+			discordMessage += `${skillCheckData.dice[i]} rolled ${skillCheckData.rolls[i]}`;
+		}
+	} else if (skillCheckData.level > 0) {
+		discordMessage += `Skill die result: ${skillCheckData.dice} rolled ${skillCheckData.result}`;
+	}
+	discordMessage += "\n";
 
-// Total
-discordMessage += `**Total Result: ${total}**`;
+	// Total
+	discordMessage += `**Total Result: ${total}**`;
 
-sendRollToBackend({
-  message: discordMessage
-});
+	sendRollToBackend({
+		message: discordMessage,
+	});
 	return {
 		d20: d20Data,
 		skillCheck: skillCheckData,
@@ -886,16 +887,15 @@ function customDicePool() {
 		let dxRoll = ` ${Math.floor(Math.random() * xValue) + 1}`;
 		dxRolls.push(dxRoll);
 	}
-	document.getElementById(
-		"dx-results"
-	).innerHTML = `<h4>DX Rolls</h4><p>${dxRolls}</p>`;
+	document.getElementById("dx-results").innerHTML =
+		`<h4>DX Rolls</h4><p>${dxRolls}</p>`;
 	// Other dice
 	let customPoolResults = {};
 	for (let side of diceSides) {
 		let key = "D" + side;
 		customPoolResults[key] = [];
 		let rollQuantity = document.getElementById(
-			"d" + side + "-roll-amount"
+			"d" + side + "-roll-amount",
 		).value;
 		for (let i = 0; i < rollQuantity; i++) {
 			let roll = ` ${Math.floor(Math.random() * side) + 1}`;
@@ -905,10 +905,29 @@ function customDicePool() {
 			"<h4>" + key + " Rolls</h4>" + "<p>" + customPoolResults[key] + "</p>";
 	}
 
-// Send to Discord if in a room
-  sendRollToBackend({
-    message: resultDisplayString.replace(/<[^>]*>/g, '') // Strip HTML tags
-  });
+// Format message for Discord
+  const characterName = document.getElementById("character-name").value || "Unknown Ranger";
+  let discordMessage = `**${characterName}'s Custom Dice Roll**\n`;
+  
+  if (dxCount > 0) {
+    discordMessage += `D${xValue}: ${dxRolls.join(', ')}\n`;
+  }
+  
+  for (let side of diceSides) {
+    let key = "D" + side;
+    if (customPoolResults[key].length > 0) {
+      discordMessage += `${key}: ${customPoolResults[key].join(', ')}\n`;
+    }
+  }
+  
+  // Add to history
+  let historyEntry = document.createElement("p");
+  historyEntry.innerHTML = discordMessage.replace(/\n/g, '<br>').replace(/\*\*/g, '');
+  let historyDiv = document.getElementById("roll-history-div");
+  historyDiv.insertBefore(historyEntry, historyDiv.firstChild);
+  
+  // Send to Discord
+  sendRollToBackend({ message: discordMessage });
 
 	return {
 		xDieValue: xValue,
@@ -1088,6 +1107,13 @@ document.addEventListener("DOMContentLoaded", function () {
 	document
 		.getElementById("open-instructions-modal")
 		.addEventListener("click", openInstructions);
+	// Close instructions modal when clicking anywhere on it
+	document
+		.getElementById("instructions-credits-modal")
+		.addEventListener("click", () => {
+			document.getElementById("instructions-credits-modal").style.display =
+				"none";
+		});
 	document
 		.getElementById("quick-roll-div")
 		.addEventListener("click", function (e) {

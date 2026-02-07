@@ -147,59 +147,59 @@ nav > button {
 /* Theme styles for SVG icons */
 svg path.red-theme {
 	vertical-align: middle;
-	fill: red;
+	fill: var(--base-theme-color);
 }
 
 svg path.green-theme {
 	vertical-align: middle;
-	fill: green;
+	fill: var(--base-theme-color);
 }
 
 svg path.blue-theme {
 	vertical-align: middle;
-	fill: #0000ff;
+	fill: var(--base-theme-color);
 }
 
 svg path.violet-theme {
 	vertical-align: middle;
-	fill: #7f00ff;
+	fill: var(--base-theme-color);
 }
 
 svg path.pink-theme {
 	vertical-align: middle;
-	fill: #ff69b4;
+	fill: var(--base-theme-color);
 }
 
 svg path.black-theme {
 	vertical-align: middle;
-	fill: black;
+	fill: var(--base-theme-color);
 }
 
 svg path.white-theme {
 	vertical-align: middle;
-	fill: white;
+	fill: var(--base-theme-color);
 	stroke: black;
 	stroke-width: 5;
 }
 
 svg path.grey-theme {
 	vertical-align: middle;
-	fill: #808080;
+	fill: var(--base-theme-color);
 }
 
 svg path.gold-theme {
 	vertical-align: middle;
-	fill: #ffd700;
+	fill: var(--base-theme-color);
 }
 
 svg path.silver-theme {
 	vertical-align: middle;
-	fill: silver;
+	fill: var(--base-theme-color);
 }
 
 svg path.bronze-theme {
 	vertical-align: middle;
-	fill: #cd7f32;
+	fill: var(--base-theme-color);
 }
 
 svg.ranger-icon {

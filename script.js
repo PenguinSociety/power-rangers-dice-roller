@@ -113,11 +113,11 @@ let pinkTheme = {
 };
 
 let goldTheme = {
-	baseColor: "#FFD900",
-	lighterColor: "#FFEC80",
-	darkerColor: "#806C00",
+	baseColor: "#A57C00",
+	lighterColor: "#FFE494",
+	darkerColor: "#6C5100",
 	buttonText: "#e6e6e6",
-	titleText: "#806C00",
+	titleText: "#6C5100",
 };
 
 let greyTheme = {

@@ -147,59 +147,59 @@ nav > button {
 /* Theme styles for SVG icons */
 svg path.red-theme {
 	vertical-align: middle;
-	fill: var(--base-theme-color);
+	fill: red;
 }
 
 svg path.green-theme {
 	vertical-align: middle;
-	fill: var(--base-theme-color);
+	fill: green;
 }
 
 svg path.blue-theme {
 	vertical-align: middle;
-	fill: var(--base-theme-color);
+	fill: #0000ff;
 }
 
 svg path.violet-theme {
 	vertical-align: middle;
-	fill: var(--base-theme-color);
+	fill: #7f00ff;
 }
 
 svg path.pink-theme {
 	vertical-align: middle;
-	fill: var(--base-theme-color);
+	fill: #ff69b4;
 }
 
 svg path.black-theme {
 	vertical-align: middle;
-	fill: var(--base-theme-color);
+	fill: black;
 }
 
 svg path.white-theme {
 	vertical-align: middle;
-	fill: var(--base-theme-color);
+	fill: white;
 	stroke: black;
 	stroke-width: 5;
 }
 
 svg path.grey-theme {
 	vertical-align: middle;
-	fill: var(--base-theme-color);
+	fill: #808080;
 }
 
 svg path.gold-theme {
 	vertical-align: middle;
-	fill: var(--base-theme-color);
+	fill: #ffd700;
 }
 
 svg path.silver-theme {
 	vertical-align: middle;
-	fill: var(--base-theme-color);
+	fill: silver;
 }
 
 svg path.bronze-theme {
 	vertical-align: middle;
-	fill: var(--base-theme-color);
+	fill: #cd7f32;
 }
 
 svg.ranger-icon {
@@ -223,10 +223,15 @@ svg.ranger-icon {
 	display: none;
 }
 
+#discord-link {
+	display: none;
+}
+
 /* Modal Overlay Styles */
 #skills-section,
 #custom-dice-pool,
-#instructions-credits-modal {
+#instructions-credits-modal,
+#discord-link {
   position: fixed;
   top: 0;
   left: 0;
@@ -240,7 +245,8 @@ svg.ranger-icon {
 
 #skills-section > section,
 #custom-dice-pool,
-#instructions-credits-modal {
+#instructions-credits-modal,
+#discord-link {
   background-color: white;
   border: solid var(--base-theme-color) 0.5vw;
   border-radius: 2vw;
@@ -251,7 +257,8 @@ svg.ranger-icon {
 
 /* Close buttons positioning */
 #modal-close,
-#dice-bag-close {
+#dice-bag-close,
+#discord-close {
   float: right;
   margin-bottom: 1em;
 }

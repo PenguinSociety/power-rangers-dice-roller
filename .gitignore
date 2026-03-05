@@ -4,6 +4,7 @@
 uiDraft.png
 node_modules/
 .env
+to-do.txt
 
 
 *.log

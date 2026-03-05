@@ -21,6 +21,7 @@
 				<button id="edit-skills-button">Edit skills</button>
 				<button id="open-dice-bag">Open dice bag</button>
 				<button id="open-instructions-modal">Guide and credits</button>
+				<button id="open-discord-integration">Discord Integration</button>
 			</nav>
 			<section id="main-controls">
 				<h2>Go Go Power Dice Roller!</h2>
@@ -214,7 +215,6 @@
 		</section>
 		<section id="instructions-credits-modal">
 			<h2>Instructions and Credits</h2>
-			<h3>Click anywhere on this window to close</h3>
 			<p>Welcome to the Power Rangers tabletop RPG dice roller.</p>
 			<p>
 				To start using the dice roller, open the character sheet and enter your
@@ -231,7 +231,7 @@
 			</p>
 
 			<p>
-				This dice roller was created by Jon .
+				This dice roller was created by Jon.
 				<a href="https://github.com/PenguinSociety" target="_blank"
 					>PenguinSociety on GitHub</a
 				>.
@@ -255,6 +255,16 @@
 				in CC Attribution License via
 				<a href="https://www.svgrepo.com/" target="_blank">SVG Repo.</a>
 			</p>
+		</section>
+		<section id="discord-link">
+			<button id="discord-close">Close</button>
+			<p>You can send your roll results to a Discord channel! To do that, create a webhoook for the channel where you want the results to appear and paste it in the field below.</p>
+			<p>If you aren't familiar with Discord Webhooks, you can check out this <a href="https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks" target="_blank">helpful guide from Discord support</a>.</p>
+			<label for="webhook-input">Paste your Discord webhook here:</label>
+			<input type="text" id="webhook-input" name="webhook-input" /><button id="submit-webhook">Submit Webhook</button>
+			<br />
+			<p>After you submit your webhook, copy your unique room URL and share it with your play group.</p>
+			<input type="text" id="unique-room-url" size="30" readonly value="Your unique URL will appear here">
 		</section>
 	</body>
 </html>

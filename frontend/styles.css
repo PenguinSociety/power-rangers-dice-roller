@@ -223,10 +223,15 @@ svg.ranger-icon {
 	display: none;
 }
 
+#discord-link {
+	display: none;
+}
+
 /* Modal Overlay Styles */
 #skills-section,
 #custom-dice-pool,
-#instructions-credits-modal {
+#instructions-credits-modal,
+#discord-link {
   position: fixed;
   top: 0;
   left: 0;
@@ -240,7 +245,8 @@ svg.ranger-icon {
 
 #skills-section > section,
 #custom-dice-pool,
-#instructions-credits-modal {
+#instructions-credits-modal,
+#discord-link {
   background-color: white;
   border: solid var(--base-theme-color) 0.5vw;
   border-radius: 2vw;
@@ -251,7 +257,8 @@ svg.ranger-icon {
 
 /* Close buttons positioning */
 #modal-close,
-#dice-bag-close {
+#dice-bag-close,
+#discord-close {
   float: right;
   margin-bottom: 1em;
 }

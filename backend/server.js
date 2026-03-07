@@ -100,6 +100,11 @@ app.post("/api/roll", async (req, res) => {
   }
 });
 
+app.get('/api/debug-rooms', async (req, res) => {
+  const result = await pool.query('SELECT room_id FROM rooms');
+  res.json(result.rows);
+});
+
 app.listen(process.env.PORT || 3000, async () => {
   console.log("Server is live on port 3000");
   await initializeDatabase();

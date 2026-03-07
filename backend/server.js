@@ -96,7 +96,7 @@ app.post("/api/roll", async (req, res) => {
     console.log("Cannot locate room ID", error);
     return res
       .status(500)
-      .json({ error: "Unable to locate room, please try again." });
+      .json({ error: error.message });
   }
 });
 

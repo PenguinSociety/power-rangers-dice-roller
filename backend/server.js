@@ -90,20 +90,15 @@ app.post("/api/roll", async (req, res) => {
       });
       if (!response.ok) {
   const errorText = await response.text();
-  throw new Error('Discord webhook failed: ' + response.status + ' ' + errorText);
+  throw new Error('Discord webhook failed');
 }
       res.json({ success: true });
     } catch (error) {
     console.log("Roll error:", error);
     return res
       .status(500)
-      .json({ error: error.message });
+      .json({ error: "Unable to post roll, please try again." });
 }
-});
-
-app.get('/api/debug-rooms', async (req, res) => {
-  const result = await pool.query('SELECT room_id FROM rooms');
-  res.json(result.rows);
 });
 
 app.listen(process.env.PORT || 3000, async () => {

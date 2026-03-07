@@ -90,25 +90,15 @@ app.post("/api/roll", async (req, res) => {
       });
       if (!response.ok) {
         const errorText = await response.text();
-  throw new Error('Discord webhook failed: ' + errorText);
+  throw new Error('Discord webhook failed: ');
       }
       res.json({ success: true });
     } catch (error) {
     console.log("Cannot locate room ID", error);
     return res
       .status(500)
-      .json({ error: error.message });
+      .json({ error: "Unable to locate room, please try again." });
   }
-});
-
-app.get('/api/debug-rooms', async (req, res) => {
-  const result = await pool.query('SELECT room_id FROM rooms');
-  res.json(result.rows);
-});
-
-app.get('/api/debug-find/:roomId', async (req, res) => {
-  const result = await pool.query('SELECT room_id, webhook_url FROM rooms WHERE room_id = $1', [req.params.roomId]);
-  res.json({ rows: result.rows, rowCount: result.rowCount });
 });
 
 app.listen(process.env.PORT || 3000, async () => {

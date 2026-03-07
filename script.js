@@ -15,7 +15,7 @@ async function sendRollToBackend(rollData) {
 
   try {
     const response = await fetch(
-      "https://power-rangers-ttrpg-dice-roller.onrender.com/api/roll",
+      "https://multinucleolate-finnegan-sibilantly.ngrok-free.dev/",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

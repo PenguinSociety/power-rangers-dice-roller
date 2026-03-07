@@ -15,7 +15,7 @@ async function sendRollToBackend(rollData) {
 
   try {
     const response = await fetch(
-      "https://multinucleolate-finnegan-sibilantly.ngrok-free.dev/",
+      "https://multinucleolate-finnegan-sibilantly.ngrok-free.dev/api/roll",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

@@ -94,11 +94,16 @@ app.post("/api/roll", async (req, res) => {
       }
       res.json({ success: true });
     } catch (error) {
-    console.log("Cannot locate room ID", error);
+    console.log("Roll error:", error);
     return res
       .status(500)
-      .json({ error: "Unable to locate room, please try again." });
-  }
+      .json({ error: error.message });
+}
+});
+
+app.get('/api/debug-rooms', async (req, res) => {
+  const result = await pool.query('SELECT room_id FROM rooms');
+  res.json(result.rows);
 });
 
 app.listen(process.env.PORT || 3000, async () => {

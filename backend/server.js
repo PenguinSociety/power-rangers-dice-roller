@@ -90,14 +90,14 @@ app.post("/api/roll", async (req, res) => {
       });
       if (!response.ok) {
   const errorText = await response.text();
-  throw new Error('Discord webhook failed');
+  throw new Error('Discord webhook failed: ' + response.status + ' ' + errorText);
 }
       res.json({ success: true });
     } catch (error) {
     console.log("Roll error:", error);
     return res
       .status(500)
-      .json({ error: "Unable to post roll, please try again." });
+      .json({ error: error.message });
 }
 });
 

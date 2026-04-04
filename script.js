@@ -407,7 +407,6 @@ function createCharacterObject() {
 function saveCharacterData() {
   let characterData = createCharacterObject();
   localStorage.setItem("rangerCharacterData", JSON.stringify(characterData));
-  alert("Character data saved!");
 }
 
 function loadCharacterData() {
@@ -467,6 +466,7 @@ function downloadCharacterData() {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+  alert("Character data saved!");
 }
 
 function getFileInput() {
@@ -1171,4 +1171,11 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("discord-close")
     .addEventListener("click", closeDiscordIntegration);
+  // Run saveCharacterData when inputs change
+  document.getElementById("theme-selector")
+  .addEventListener("change", saveCharacterData);
+  document.getElementById("character-name")
+  .addEventListener("change", saveCharacterData);
+  document.getElementById("skill-levels")
+  .addEventListener("change", saveCharacterData);
 });

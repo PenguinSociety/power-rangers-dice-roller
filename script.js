@@ -412,21 +412,45 @@ function saveCharacterData() {
 
 function loadCharacterData() {
   let savedData = localStorage.getItem("rangerCharacterData");
+  let parsedData = "";
   if (savedData) {
-    let parsedData = JSON.parse(savedData);
-    document.getElementById("character-name").value = parsedData.name;
-    document.getElementById("theme-selector").value = parsedData.theme;
-    let theme = iconChange();
-    changeTheme(theme);
-    for (let i = 0; i < skills.length; i++) {
-      let lowerCaseSkill = skills[i].toLowerCase().replace(/ /g, "-");
-      document.getElementById(lowerCaseSkill + "-level").value =
-        parsedData.skills[i];
+    try {
+      parsedData = JSON.parse(savedData);
+    } catch (error) {
+      console.error("Character data could not be retrieved:", error);
+      return;
     }
-
-    if (parsedData.quickRolls) {
-      localStorage.setItem("quickRolls", JSON.stringify(parsedData.quickRolls));
-      displayQuickRolls();
+    try {
+      document.getElementById("character-name").value = parsedData.name;
+    } catch (error) {
+      console.error("Character name failed to load:", error);
+    }
+    try {
+      document.getElementById("theme-selector").value = parsedData.theme;
+      let theme = iconChange();
+      changeTheme(theme);
+    } catch (error) {
+      console.error("Theme failed to load:", error);
+    }
+    try {
+      for (let i = 0; i < skills.length; i++) {
+        let lowerCaseSkill = skills[i].toLowerCase().replace(/ /g, "-");
+        document.getElementById(lowerCaseSkill + "-level").value =
+          parsedData.skills[i];
+      }
+    } catch (error) {
+      console.error("Skills failed to load:", error);
+    }
+    try {
+      if (parsedData.quickRolls) {
+        localStorage.setItem(
+          "quickRolls",
+          JSON.stringify(parsedData.quickRolls),
+        );
+        displayQuickRolls();
+      }
+    } catch (error) {
+      console.error("Quick rolls failed to load:", error);
     }
   }
 }

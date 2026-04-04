@@ -2,9 +2,11 @@ const express = require("express");
 const app = express();
 
 const { Pool } = require("pg");
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-
-const crypto = require('crypto');
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false },
+});
+const crypto = require("crypto");
 
 async function initializeDatabase() {
   try {
@@ -31,8 +33,8 @@ app.use((req, res, next) => {
 
 // Helper function to generate random room IDs
 function generateRoomId() {
-  return crypto.randomBytes(16).toString('hex');
-};
+  return crypto.randomBytes(16).toString("hex");
+}
 
 // Test route
 app.get("/", (req, res) => {
@@ -79,26 +81,26 @@ app.post("/api/roll", async (req, res) => {
     );
     if (result.rows.length === 0) {
       return res.status(404).json({ error: "Room not found" });
-    };
+    }
     // Send to Discord
     const response = await fetch(result.rows[0].webhook_url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          content: rollData.message,
-        }),
-      });
-      if (!response.ok) {
-  const errorText = await response.text();
-  throw new Error('Discord webhook failed: ' + response.status + ' ' + errorText);
-}
-      res.json({ success: true });
-    } catch (error) {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        content: rollData.message,
+      }),
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(
+        "Discord webhook failed: " + response.status + " " + errorText,
+      );
+    }
+    res.json({ success: true });
+  } catch (error) {
     console.log("Roll error:", error);
-    return res
-      .status(500)
-      .json({ error: error.message });
-}
+    return res.status(500).json({ error: error.message });
+  }
 });
 
 app.listen(process.env.PORT || 3000, async () => {
